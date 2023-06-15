@@ -59,7 +59,7 @@
             pattern="^\S+@\S+(\.\S+)+$"
             class="form-control"
             bind:value={email}
-            placeholder="yourname@yourdomain.com"
+            placeholder="name@domain.com"
           />
         </div>
         <div class="col">
@@ -67,7 +67,7 @@
             type="submit"
             class="btn btn-success"
             title="Click to register or recover access"
-            >Register or recover access</button
+            >Register or recover</button
           >
         </div>
       </div>
