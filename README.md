@@ -24,4 +24,8 @@ yarn
 yarn dev
 # rename project to grabakey
 # http://localhost:5173/
+
+yarn build
+
+./grabakey deploy
 ```

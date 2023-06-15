@@ -1,30 +1,102 @@
 <script>
   import gakLogo from "/logo.svg";
   let email = "";
-  const register = () => {};
+  let alert = { class: "alert hide", text: "" };
+  const on_submit = async (e) => {
+    e.preventDefault(0);
+    // console.log(`${email}`);
+    alert = { class: "alert hide", text: "" };
+    const res = await fetch("/api/pubkey", {
+      method: "POST",
+      body: email,
+    });
+    // console.log(`${res.status}`);
+    switch (res.status) {
+      case 200:
+        alert = {
+          class: "alert alert-success mt-3",
+          text: "A confirmation email has been sent.",
+        };
+        break;
+      default:
+        alert = {
+          class: "alert alert-danger mt-3",
+          text: "Failure calling the grabakey API.",
+        };
+        break;
+    }
+  };
 </script>
 
-<main>
-  <div class="header">
-    <a href="https://grabakey.org" target="_blank" rel="noreferrer">
-      <img src={gakLogo} class="logo" alt="Grabakey Logo" />
+<div class="container">
+  <nav class="navbar">
+    <a
+      class="nav-link"
+      href="https://grabakey.org"
+      target="_blank"
+      rel="noreferrer"
+      title="Grabakey Home"
+    >
+      <img src={gakLogo} class="" alt="Grabakey Logo" height="50" />
     </a>
-    <div>
-      <input bind:value={email} placeholder="name@domain.com" />
-      <button on:click={register}> Register or recover access </button>
+    <a
+      class="nav-link"
+      href="https://github.com/grabakey"
+      target="_blank"
+      rel="noreferrer"
+      title="Grabakey Github Organization"
+    >
+      <i class="bi-github h2" />
+    </a>
+  </nav>
+  <h1>Open public key repository</h1>
+  <div id="controls">
+    <form on:submit={on_submit}>
+      <div class="row">
+        <div class="col">
+          <input
+            required
+            pattern="^\S+@\S+(\.\S+)+$"
+            class="form-control"
+            bind:value={email}
+            placeholder="yourname@yourdomain.com"
+          />
+        </div>
+        <div class="col">
+          <button
+            type="submit"
+            class="btn btn-success"
+            title="Click to register or recover access"
+            >Register or recover access</button
+          >
+        </div>
+      </div>
+    </form>
+    <div class={alert.class} role="alert">
+      {alert.text}
     </div>
-    <h1>Open public key repository</h1>
   </div>
+  <br />
+  <h2>FAQ</h2>
   <div id="whatis">
-    <h2>What is Grabakey?</h2>
+    <h3>What is Grabakey?</h3>
     <p>
       Grabakey is an open public key repository where you can associate a public
       key with your email address so you can use your public key from anywhere
       and everywhere.
     </p>
   </div>
+  <div id="howto">
+    <h3>How does it work?</h3>
+    <p>
+      When your register with grabakey a confirmation email is sent to you with
+      instructions on how to perform the next steps which include: (a) Updating
+      your public key (b) Retrieving your public key (c) Installing the openssh
+      plugin (d) Deleting your grabakey registration.
+    </p>
+  </div>
   <div id="safety">
-    <h2>Is it safe?</h2>
+    <h3>Is it safe?</h3>
     <p>
       Grabakey uses security best practices and its API is only accesible over
       secure HTTP. Grabakey enforces email based authentication for each of its
@@ -33,14 +105,14 @@
     </p>
   </div>
   <div id="contact">
-    <h2>We are here for you</h2>
+    <h3>How do we get help?</h3>
     <p>
       We are happy to learn how to better serve you. Do not hesitate to share
       your concerns and ideas with us. Drop us a line at hello@grabakey.org.
     </p>
   </div>
   <div id="donate">
-    <h2>Financial support</h2>
+    <h3>Is it free?</h3>
     <p>
       Grabakey is committed to be a free service. If you find the service useful
       consider <a
@@ -51,8 +123,8 @@
       >.
     </p>
   </div>
+  <h2>Privacy Policy</h2>
   <div id="privacy">
-    <h2>Privacy Policy</h2>
     <p>
       Grabakey does not and will never use or store cookies. Grabakey does not
       and will never share your information with anyone. Grabakey does not and
@@ -60,8 +132,8 @@
       provided by You to the Grabakey API.
     </p>
   </div>
+  <h2>Terms of Use</h2>
   <div id="terms">
-    <h2>Terms of Use</h2>
     <p>
       Please read these Terms carefully before using this website. By using this
       website (the "Website"), the user ("You") has accepted these Terms of Use.
@@ -137,11 +209,7 @@
       DAMAGES, PORTIONS OF THE ABOVE LIMITATION OR EXCLUSION MAY NOT APPLY.
     </p>
   </div>
-</main>
+</div>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-  }
 </style>

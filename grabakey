@@ -1,0 +1,8 @@
+#!/bin/bash -x
+
+case $1 in
+  deploy)
+    yarn build
+    rsync --delete -r dist/ grabakey.org:rel/web
+  ;;
+esac
