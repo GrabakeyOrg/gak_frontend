@@ -2,15 +2,18 @@
   import gakLogo from "/logo.svg";
   let email = "";
   let alert = { class: "alert hide", text: "" };
+  let disabled = false;
   const on_submit = async (e) => {
     e.preventDefault(0);
     // console.log(`${email}`);
+    disabled = true;
     alert = { class: "alert hide", text: "" };
     const res = await fetch("/api/pubkey", {
       method: "POST",
       body: email,
     });
     // console.log(`${res.status}`);
+    disabled = false;
     switch (res.status) {
       case 200:
         alert = {
@@ -21,7 +24,7 @@
       default:
         alert = {
           class: "alert alert-danger mt-3",
-          text: "Failure calling the grabakey API.",
+          text: "Failure calling the Grabakey API.",
         };
         break;
     }
@@ -64,6 +67,7 @@
         </div>
         <div class="col">
           <button
+            {disabled}
             type="submit"
             class="btn btn-success"
             title="Click to register or recover access"
@@ -83,16 +87,42 @@
     <p>
       Grabakey is an open public key repository where you can associate a public
       key with your email address so you can use your public key from anywhere
-      and everywhere.
+      and everywhere. Grabakey is the conceptual child of the <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://letsencrypt.org">letsencrypt</a
+      >
+      and
+      <a target="_blank" rel="noreferrer" href="https://gravatar.com"
+        >gravatar</a
+      > projects. Grabakey's goal is to bring convenience to the management of your
+      public keys to foster the use of security best practices around the world.
+    </p>
+  </div>
+  <div id="usecase">
+    <h3>What is its main use case?</h3>
+    <p>
+      The Grabakey <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://github.com/grabakey/gak_openssh">OpenSSH plugin</a
+      > allows you to passwordlessly login into your Ubuntu servers by configuring
+      the sshd service to fetch the authorized public keys from Grabakey. Grabakey
+      is the cloud version of the ~/.ssh/authorized_keys file. When a private key
+      is lost or compromised, just generate a new pair and update your Grabakey public
+      key and all your servers will deny access to the previous key and will grant
+      access to the new one immediately.
     </p>
   </div>
   <div id="howto">
     <h3>How does it work?</h3>
     <p>
-      When your register with grabakey a confirmation email is sent to you with
+      When you register with Grabakey a confirmation email is sent to you with
       instructions on how to perform the next steps which include: (a) Updating
       your public key (b) Retrieving your public key (c) Installing the openssh
-      plugin (d) Deleting your grabakey registration.
+      plugin (d) Deleting your Grabakey registration. On each update a new email
+      with the next steps instructions will be emitted keeping you on top of the
+      process at any moment.
     </p>
   </div>
   <div id="safety">
@@ -140,11 +170,6 @@
       If You do not accept these Terms of Use, do not use the Website. By using
       this Website, you represent that you are of legal age to form a binding
       contract with Grabakey.
-    </p>
-    <p>
-      The purpose of Grabakey is to build tools that bring convenience to the
-      management of your public keys to foster the use of security best
-      practices around the world.
     </p>
     <h3>You agree to the following rules:</h3>
     <p>
