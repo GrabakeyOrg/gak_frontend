@@ -1,13 +1,14 @@
 <script>
   import gakLogo from "/logo.svg";
+  import opensshSlide from "./assets/openssh.svg";
   let email = "";
-  let alert = { class: "alert hide", text: "" };
+  let alert = { class: "alert hide", text: "", visible: false };
   let disabled = false;
   const on_submit = async (e) => {
     e.preventDefault(0);
     // console.log(`${email}`);
     disabled = true;
-    alert = { class: "alert hide", text: "" };
+    alert = { class: "alert hide", text: "", visible: false };
     const res = await fetch("/api/pubkey", {
       method: "POST",
       body: email,
@@ -19,12 +20,14 @@
         alert = {
           class: "alert alert-success mt-3",
           text: "A confirmation email has been sent.",
+          visible: true,
         };
         break;
       default:
         alert = {
           class: "alert alert-danger mt-3",
           text: "Failure calling the Grabakey API.",
+          visible: true,
         };
         break;
     }
@@ -40,7 +43,7 @@
       rel="noreferrer"
       title="Grabakey Home"
     >
-      <img src={gakLogo} class="" alt="Grabakey Logo" height="50" />
+      <img src={gakLogo} alt="Grabakey Logo" height="50" />
     </a>
     <a
       class="nav-link"
@@ -76,9 +79,11 @@
         </div>
       </div>
     </form>
-    <div class={alert.class} role="alert">
-      {alert.text}
-    </div>
+    {#if alert.visible}
+      <div class={alert.class} role="alert">
+        {alert.text}
+      </div>
+    {/if}
   </div>
   <br />
   <h2>FAQ</h2>
@@ -113,6 +118,11 @@
       key and all your servers will deny access to the previous key and will grant
       access to the new one immediately.
     </p>
+    <img
+      src={opensshSlide}
+      alt="Passwordless Login with Grabakey"
+      width="100%"
+    />
   </div>
   <div id="howto">
     <h3>How does it work?</h3>
