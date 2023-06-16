@@ -44,14 +44,9 @@
 
 <svelte:window on:hashchange={on_hash} />
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a
-      class="navbar-brand"
-      href="https://grabakey.org"
-      target="_blank"
-      rel="noreferrer"
-    >
+    <a class="navbar-brand" href="https://grabakey.org" rel="noreferrer">
       <img
         src={grabakeyLogo}
         alt="Grabakey Logo"
@@ -106,11 +101,13 @@
   </div>
 </nav>
 
-<main class="container">
+<main class="container min-vh-100">
+  <br />
+  <br />
   {#if page == "home"}
     <form
       on:submit={on_submit}
-      class="d-flex page w-100 align-items-center justify-content-center"
+      class="d-flex w-100 align-items-center justify-content-center mt-5 pt-5"
     >
       <input
         required
@@ -134,8 +131,6 @@
     {/if}
   {/if}
   {#if page == "faq"}
-    <br />
-    <br />
     <h2>Frequently Asked Questions</h2>
     <br />
     <h3>What is Grabakey?</h3>
@@ -198,12 +193,8 @@
         >making a small donation or becoming a patron</a
       >.
     </p>
-    <br />
-    <br />
   {/if}
   {#if page == "privacy"}
-    <br />
-    <br />
     <h2>Privacy Policy</h2>
     <br />
     <ul>
@@ -216,12 +207,8 @@
         than the information provided by You to the Grabakey API.
       </li>
     </ul>
-    <br />
-    <br />
   {/if}
   {#if page == "terms"}
-    <br />
-    <br />
     <h2>Terms of Use</h2>
     <br />
     <p>
@@ -293,16 +280,14 @@
       ALLOW THE EXCLUSION OR LIMITATION OF DIRECT, INCIDENTAL OR CONSEQUENTIAL
       DAMAGES, PORTIONS OF THE ABOVE LIMITATION OR EXCLUSION MAY NOT APPLY.
     </p>
-    <br />
-    <br />
   {/if}
 </main>
 
+<footer class="text-center text-lg-start bg-light text-muted mt-5">
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2023 grabakey.org
+  </div>
+</footer>
+
 <style>
-  .page {
-    height: calc(100vh - 200px);
-    height: -o-calc(100vh - 200px); /* opera */
-    height: -webkit-calc(100vh - 200px); /* google, safari */
-    height: -moz-calc(100vh - 200px); /* firefox */
-  }
 </style>
