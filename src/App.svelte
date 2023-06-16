@@ -5,13 +5,12 @@
   let page = "home";
   let alert = { class: "alert hide", text: "", visible: false };
   let disabled = false;
+  //load event does not work with vite hot reloading
+  if (location.hash.startsWith("#")) {
+    page = location.hash.substring(1);
+  }
   const on_hash = async () => {
     page = location.hash.substring(1);
-  };
-  const on_load = async () => {
-    if (location.hash.startsWith("#")) {
-      page = location.hash.substring(1);
-    }
   };
   const on_submit = async (e) => {
     e.preventDefault(0);
@@ -43,7 +42,7 @@
   };
 </script>
 
-<svelte:window on:hashchange={on_hash} on:load={on_load} />
+<svelte:window on:hashchange={on_hash} />
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
   <div class="container">
@@ -160,12 +159,12 @@
         target="_blank"
         rel="noreferrer"
         href="https://github.com/grabakey/gak_openssh">OpenSSH plugin</a
-      > allows you to passwordlessly login into your Ubuntu servers by configuring
-      the sshd service to fetch the authorized public keys from Grabakey. Grabakey
-      is the cloud version of the ~/.ssh/authorized_keys file. When a private key
-      is lost or compromised, just generate a new pair and update your Grabakey public
-      key and all your servers will deny access to the previous key and will grant
-      access to the new one immediately.
+      > allows you to passwordlessly login into your Linux server farm or Linux device
+      fleet by configuring the sshd service to fetch the authorized public keys from
+      Grabakey. Grabakey is the cloud version of the ~/.ssh/authorized_keys file.
+      When a private key is lost or compromised, just generate a new pair and update
+      your Grabakey public key and all your servers will deny access to the previous
+      key and will grant access to the new one immediately.
     </p>
     <img src={opensshImage} alt="Grabakey OpenSSH" width="80%" />
     <h3>How does it work?</h3>
@@ -199,6 +198,8 @@
         >making a small donation or becoming a patron</a
       >.
     </p>
+    <br />
+    <br />
   {/if}
   {#if page == "privacy"}
     <br />
@@ -215,6 +216,8 @@
         than the information provided by You to the Grabakey API.
       </li>
     </ul>
+    <br />
+    <br />
   {/if}
   {#if page == "terms"}
     <br />
@@ -290,6 +293,8 @@
       ALLOW THE EXCLUSION OR LIMITATION OF DIRECT, INCIDENTAL OR CONSEQUENTIAL
       DAMAGES, PORTIONS OF THE ABOVE LIMITATION OR EXCLUSION MAY NOT APPLY.
     </p>
+    <br />
+    <br />
   {/if}
 </main>
 
