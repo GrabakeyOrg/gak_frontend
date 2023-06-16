@@ -1,9 +1,18 @@
 <script>
-  import gakLogo from "/logo.svg";
-  import opensshSlide from "./assets/openssh.svg";
+  import opensshImage from "./assets/openssh.svg";
+  import grabakeyLogo from "./assets/logo.svg";
   let email = "";
+  let page = "home";
   let alert = { class: "alert hide", text: "", visible: false };
   let disabled = false;
+  const on_hash = async () => {
+    page = location.hash.substring(1);
+  };
+  const on_load = async () => {
+    if (location.hash.startsWith("#")) {
+      page = location.hash.substring(1);
+    }
+  };
   const on_submit = async (e) => {
     e.preventDefault(0);
     // console.log(`${email}`);
@@ -34,60 +43,102 @@
   };
 </script>
 
-<div class="container">
-  <nav class="navbar">
+<svelte:window on:hashchange={on_hash} on:load={on_load} />
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+  <div class="container">
     <a
-      class="nav-link"
+      class="navbar-brand"
       href="https://grabakey.org"
       target="_blank"
       rel="noreferrer"
-      title="Grabakey Home"
     >
-      <img src={gakLogo} alt="Grabakey Logo" height="50" />
+      <img
+        src={grabakeyLogo}
+        alt="Grabakey Logo"
+        height="50"
+        class="d-inline-block align-text-top"
+      />
     </a>
-    <a
-      class="nav-link"
-      href="https://github.com/grabakey"
-      target="_blank"
-      rel="noreferrer"
-      title="Grabakey Github Organization"
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
     >
-      <i class="bi-github h2" />
-    </a>
-  </nav>
-  <h1>Open public key repository</h1>
-  <div id="controls">
-    <form on:submit={on_submit}>
-      <div class="row">
-        <div class="col">
-          <input
-            required
-            pattern="^\S+@\S+(\.\S+)+$"
-            class="form-control"
-            bind:value={email}
-            placeholder="name@domain.com"
-          />
-        </div>
-        <div class="col">
-          <button
-            {disabled}
-            type="submit"
-            class="btn btn-success"
-            title="Click to register or recover access"
-            >Register or recover</button
+      <span class="navbar-toggler-icon" />
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            class:active={page == "home"}
+            aria-current="page"
+            href="#home">Home</a
           >
-        </div>
-      </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" class:active={page == "faq"} href="#faq">FAQ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" class:active={page == "privacy"} href="#privacy"
+            >Privacy</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" class:active={page == "terms"} href="#terms"
+            >Terms</a
+          >
+        </li>
+      </ul>
+      <a
+        class="nav-link"
+        href="https://github.com/grabakey"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <i class="bi-github" />
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+  {#if page == "home"}
+    <form
+      on:submit={on_submit}
+      class="d-flex page w-100 align-items-center justify-content-center"
+    >
+      <input
+        required
+        pattern="^\S+@\S+(\.\S+)+$"
+        class="form-control me-2"
+        style="max-width: 32em;"
+        bind:value={email}
+        placeholder="name@domain.com"
+      />
+      <button
+        {disabled}
+        type="submit"
+        class="btn btn-success ms-2"
+        title="Click to register or recover access">Register or Recover</button
+      >
     </form>
     {#if alert.visible}
       <div class={alert.class} role="alert">
         {alert.text}
       </div>
     {/if}
-  </div>
-  <br />
-  <h2>FAQ</h2>
-  <div id="whatis">
+  {/if}
+  {#if page == "faq"}
+    <br />
+    <br />
+    <h2>Frequently Asked Questions</h2>
+    <br />
     <h3>What is Grabakey?</h3>
     <p>
       Grabakey is an open public key repository where you can associate a public
@@ -103,8 +154,6 @@
       > projects. Grabakey's goal is to bring convenience to the management of your
       public keys to foster the use of security best practices around the world.
     </p>
-  </div>
-  <div id="usecase">
     <h3>What is its main use case?</h3>
     <p>
       The Grabakey <a
@@ -118,13 +167,7 @@
       key and all your servers will deny access to the previous key and will grant
       access to the new one immediately.
     </p>
-    <img
-      src={opensshSlide}
-      alt="Passwordless Login with Grabakey"
-      width="100%"
-    />
-  </div>
-  <div id="howto">
+    <img src={opensshImage} alt="Grabakey OpenSSH" width="80%" />
     <h3>How does it work?</h3>
     <p>
       When you register with Grabakey a confirmation email is sent to you with
@@ -134,8 +177,6 @@
       with the next steps instructions will be emitted keeping you on top of the
       process at any moment.
     </p>
-  </div>
-  <div id="safety">
     <h3>Is it safe?</h3>
     <p>
       Grabakey uses security best practices and its API is only accesible over
@@ -143,15 +184,11 @@
       API operations. Grabakey is a repository for public keys only. Grabakey
       does not store, require, or request any of your private keys.
     </p>
-  </div>
-  <div id="contact">
     <h3>How do we get help?</h3>
     <p>
       We are happy to learn how to better serve you. Do not hesitate to share
       your concerns and ideas with us. Drop us a line at hello@grabakey.org.
     </p>
-  </div>
-  <div id="donate">
     <h3>Is it free?</h3>
     <p>
       Grabakey is committed to be a free service. If you find the service useful
@@ -162,18 +199,28 @@
         >making a small donation or becoming a patron</a
       >.
     </p>
-  </div>
-  <h2>Privacy Policy</h2>
-  <div id="privacy">
-    <p>
-      Grabakey does not and will never use or store cookies. Grabakey does not
-      and will never share your information with anyone. Grabakey does not and
-      will never require or store any other information than the information
-      provided by You to the Grabakey API.
-    </p>
-  </div>
-  <h2>Terms of Use</h2>
-  <div id="terms">
+  {/if}
+  {#if page == "privacy"}
+    <br />
+    <br />
+    <h2>Privacy Policy</h2>
+    <br />
+    <ul>
+      <li>Grabakey does not and will never use or store cookies.</li>
+      <li>
+        Grabakey does not and will never share your information with anyone.
+      </li>
+      <li>
+        Grabakey does not and will never require or store any other information
+        than the information provided by You to the Grabakey API.
+      </li>
+    </ul>
+  {/if}
+  {#if page == "terms"}
+    <br />
+    <br />
+    <h2>Terms of Use</h2>
+    <br />
     <p>
       Please read these Terms carefully before using this website. By using this
       website (the "Website"), the user ("You") has accepted these Terms of Use.
@@ -243,8 +290,14 @@
       ALLOW THE EXCLUSION OR LIMITATION OF DIRECT, INCIDENTAL OR CONSEQUENTIAL
       DAMAGES, PORTIONS OF THE ABOVE LIMITATION OR EXCLUSION MAY NOT APPLY.
     </p>
-  </div>
-</div>
+  {/if}
+</main>
 
 <style>
+  .page {
+    height: calc(100vh - 200px);
+    height: -o-calc(100vh - 200px); /* opera */
+    height: -webkit-calc(100vh - 200px); /* google, safari */
+    height: -moz-calc(100vh - 200px); /* firefox */
+  }
 </style>
