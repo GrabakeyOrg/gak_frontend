@@ -109,9 +109,14 @@
       on:submit={on_submit}
       class="d-flex w-100 align-items-center justify-content-center mt-5 pt-5"
     >
+      <!-- 
+        hypen need scaping in a js regex bracket 
+        an invalid regex disables input validation
+      -->
       <input
         required
-        pattern="^\S+@\S+(\.\S+)+$"
+        type="text"
+        pattern="^[\-_a-zA-Z0-9]+(\.[\-_a-zA-Z0-9]+)*@([\-_a-zA-Z0-9]+\.)+[a-zA-Z]+$"
         class="form-control me-2"
         style="max-width: 32em;"
         bind:value={email}
