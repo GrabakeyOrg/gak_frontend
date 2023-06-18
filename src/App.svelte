@@ -17,7 +17,7 @@
     // console.log(`${email}`);
     disabled = true;
     alert = { class: "alert hide", text: "", visible: false };
-    const res = await fetch("/api/pubkey", {
+    const res = await fetch("/api/user", {
       method: "POST",
       body: email,
     });
