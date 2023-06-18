@@ -91,7 +91,7 @@
       </ul>
       <a
         class="nav-link"
-        href="https://github.com/grabakey"
+        href="https://github.com/GrabakeyOrg"
         target="_blank"
         rel="noreferrer"
       >
@@ -158,7 +158,7 @@
       The Grabakey <a
         target="_blank"
         rel="noreferrer"
-        href="https://github.com/grabakey/gak_openssh">OpenSSH plugin</a
+        href="https://github.com/GrabakeyOrg/gak_openssh">OpenSSH plugin</a
       > allows you to passwordlessly login into your Linux server farm or Linux device
       fleet by configuring the sshd service to fetch the authorized public keys from
       Grabakey. Grabakey is the cloud version of the ~/.ssh/authorized_keys file.
