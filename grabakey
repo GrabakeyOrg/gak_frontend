@@ -3,6 +3,6 @@
 case $1 in
   deploy)
     yarn build
-    rsync --delete -r dist/ grabakey.org:rel/web
+    rsync --delete -r dist/ grabakey.org:grabakey/frontend
   ;;
 esac
